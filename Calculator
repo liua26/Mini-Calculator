@@ -1,0 +1,159 @@
+<html>
+<head>
+  <title> Mini Calculator Assingment</title>
+  <style>
+    button{width: 70px;
+          height:60px;
+          background-color: #33ccff;
+          font-size: 20px;
+          font-family:timesnewroman;
+          }
+    form {background-color: white;
+          width: 370px;}
+    h3   {color: darkblue;
+        font-size: 30px;
+    }
+    .screen {width:210px;
+            height:35px;
+
+    }
+    /*unary operator*/
+    .singleOp {background-color:#006dcc;}
+
+    .Reset, .bOpPercent, .bEqual {background-color:#80c3ff;
+    }
+    /*binary operator*/
+    .bOpMult, .bOpDiv, .bOpAdd, .bOpSub, .bOpNeg { background-color:#0088ff;
+    }
+    .Reset { width: 144px;
+    }
+  </style>
+<script>
+var num1 = null;
+var num2 = null;
+var signChoice = null;
+
+//disable keyboard, using mouse to click buttons only
+document.onkeydown = function (e) {
+    alert("Please use buttons only.");
+    return false;
+}
+
+function clearCalculator() {
+  //reset all variables
+    document.getElementById("screen").value = "";
+    num1 = null;
+    num2 = null;
+    signChoice = null;
+}
+
+function addNum(num){
+    document.getElementById("screen").value = document.getElementById("screen").value + num;
+}
+
+function singleOp(sign){
+    //for those unary operators, display result right away
+    num1 = document.getElementById("screen").value;
+    if (sign =="²") {
+      document.getElementById ("screen").value = Number (num1)** 2;
+    }
+    if (sign =="√") {
+      document.getElementById ("screen").value = Math.sqrt (Number(num1));
+    }
+    //this is in radians, not degrees. applies to tan, cos, and sin.
+    if (sign =="tan") {
+      document.getElementById ("screen"). value = Math.tan (Number (num1));
+    }
+    if (sign =="sin") {
+      document.getElementById ("screen").value = Math.sin(Number (num1));
+    }
+    if (sign =="cos"){
+      document.getElementById ("screen").value = Math.cos (Number (num1));
+    }
+    if (signChoice =="π") {
+      document.getElementById ("screen").value = Math.PI (Number (num1));
+    }
+}
+
+function setSign(sign){
+
+  //only valid if preious two numbers are calculated
+
+  if (signChoice == null) {
+    signChoice = sign;
+    num1 = document.getElementById("screen").value;
+    document.getElementById("screen").value = "";
+  } else {
+    //if there are existing binary operations not calculated, then prompt message to click =.
+    alert("Please click = to calculate.");
+  }
+}
+
+function equalPressed() {
+    num2 = document.getElementById("screen").value;
+    if (signChoice =="+") {
+      document.getElementById("screen").value = Number(num1)+ Number(num2);
+    }
+    if (signChoice =="-"){
+      document.getElementById ("screen").value = Number(num1)- Number(num2);
+    }
+    if (signChoice =="*") {
+      document.getElementById ("screen").value = Number(num1)*Number(num2);
+    }
+    if (signChoice =="/") {
+      document.getElementById ("screen").value = Number(num1)/ Number(num2);
+    }
+//hit = to find the %
+    if (signChoice =="%") {
+      document.getElementById ("screen").value = Number(num1)/100;
+    }
+    if (signChoice =="~") {
+//hit = to find the negative reciprocal
+      document.getElementById ("screen").value = Math.sign(-1)* Number(num1);
+    }
+
+    //reset signChoice
+    signChoice = null;
+ }
+</script>
+
+</head>
+<body>
+  <center>
+<form>
+  <center><br><h3>Calculator</h3>
+<input class="screen"type="text" id="screen"></center><br><br>
+<button class="Reset" type="button" onclick="clearCalculator()" id="Reset">AC</button>
+<button class="bOpPercent"type="button" onclick="setSign('%')" id="bOpPercent">%</button>
+<button class="singleOp" type="button" onclick="singleOp('²')" id="bOpSquare">x²</button>
+<button class="singleOp" type="button" onclick="singleOp('√')" id="bOpRoot">√</button>
+
+<br>
+<button type="button" onclick="addNum(1)" id="bNum1">1</button>
+<button type="button" onclick="addNum(2)" id="bNum2">2</button>
+<button type="button" onclick="addNum(3)" id="bNum3">3</button>
+<button class="bOpDiv"type="button" onclick="setSign('/')" id="bOpDiv">÷</button>
+<button class="singleOp" type="button" onclick="singleOp('tan')" id="bOpTan">tan</button>
+<br>
+<button type="button" onclick="addNum(4)" id="bNum4">4</button>
+<button type="button" onclick="addNum(5)" id="bNum5">5</button>
+<button type="button" onclick="addNum(6)" id="bNum6">6</button>
+<button class="bOpMult"type="button" onclick="setSign('*')" id="bOpMult">x</button>
+<button class="singleOp" type="button" onclick="singleOp('sin')" id="bOpSin">sin</button>
+<br>
+<button type="button" onclick="addNum(7)" id="bNum7">7</button>
+<button type="button" onclick="addNum(8)" id="bNum8">8</button>
+<button type="button" onclick="addNum(9)" id="bNum9">9</button>
+<button class="bOpSub"type="button" onclick="setSign('-')" id="bOpSub">-</button>
+<button class="singleOp" type="button" onclick="singleOp('cos')" id="bOpCos">cos</button>
+<br>
+<button type="button" onclick="addNum(0)" id="bNum0">0</button>
+<button type="button" onclick="addNum('.')" id="bNumPeriod">.</button>
+<button class="bOpNeg"type="button" onclick="setSign('~')" id="bOpNeg">(-)</button>
+<button class="bOpAdd"type="button" onclick="setSign('+')" id="bOpAdd">+</button>
+<button class="bEqual"type="button" onclick="equalPressed()" id="bEqual">=</button>
+<br>
+</form>
+</center>
+</body>
+</html>
